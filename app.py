@@ -10,23 +10,18 @@ app = Flask(__name__)
 load_dotenv()
 
 frontend_url = "http://localhost:5173" 
-CORS(app, origins=frontend_url)  # Enable CORS for the entire app
+CORS(app, origins=frontend_url)  
 
-app.config['MONGO_URI'] = os.getenv('MONGO_URI')  # Set your MongoDB URI from .env
+app.config['MONGO_URI'] = os.getenv('MONGO_URI')
 mongo = PyMongo(app)
 contacts = mongo.db.contacts
 
-# Check connection
+# Check MongoDB connection
 if mongo.cx.server_info():
     print("Successfully connected to MongoDB!")
 else:
     print("Failed to connect to MongoDB.")
 
-
-# Define routes and views
-@app.route('/')
-def home():
-    return ''
 
 # Add new contact
 
@@ -56,11 +51,9 @@ def get_contacts():
     contacts_list = []
 
     for contact in contacts.find():
-        # Convert the ObjectId to a string
         contact['_id'] = str(contact['_id'])
         contacts_list.append(contact)
 
-    # Use the jsonify function to send the data as JSON
     return jsonify({'contacts': contacts_list})
    
 
@@ -70,24 +63,50 @@ def get_contacts():
 def show_contact(id):
      
     try:
-        # Assuming 'contacts' is your MongoDB collection
-        specific_contact = contacts.find_one({"_id": ObjectId(id)})  # You'll need to import 'ObjectId' from pymongo
+        specific_contact = contacts.find_one({"_id": ObjectId(id)}) 
         specific_contact['_id'] = str(specific_contact['_id'])
 
         if specific_contact:
-            # You found the contact, and now you can return it as JSON
             return jsonify({'contact': specific_contact}), 200
             
         else:
-            # Contact with the given ID was not found
             return jsonify({'error': 'Contact not found'}), 404
     except Exception as e:
-        # Handle any exceptions or errors here
         return jsonify({'error': str(e)}), 500
 
 
+# Delete specific contact
+
+@app.route('/api/contacts/<id>', methods=['DELETE'])
+def delete_contact(id):
+    
+        result = contacts.delete_one({"_id": ObjectId(id)})
+        if result.deleted_count == 1:
+            return jsonify({"success": "Contact deleted successfully."})
+        else:
+            return jsonify({"error": "Failed to delete contact."})
+        
+
+# Edit specific contact
+
+@app.route('/api/contacts/<id>', methods=['PUT'])
+def edit_contact(id):
+
+    json = request.json
+    contact = contacts.find_one({"_id": ObjectId(id)}) 
+    
+    if contact:
+        contact['name'] = json.get('name', contact['name'])
+        contact['number'] = json.get('number', contact['number'])
+
+        contacts.update_one({"_id": ObjectId(id)}, {"$set": contact})
+        contact["_id"] = str(contact["_id"])
+        contact.pop("contact", None)
+        return jsonify(contact)
+    else:
+        return jsonify({"message": "Contact not found"})
+   
 
 # Run the Flask application if this is the main entry point
 if __name__ == '__main__':
     app.run(debug=True)
-    # app.run(host='localhost', port=5000)

@@ -5,7 +5,7 @@ const NavBar = () => {
     return (
         <ul className="menu menu-horizontal bg-base-200 rounded-box">
             <li>
-                <Link to="/">Home</Link>
+                <Link to="/">Contacts</Link>
             </li>
             <li>
                 <Link to="/contacts/add">Add New</Link>

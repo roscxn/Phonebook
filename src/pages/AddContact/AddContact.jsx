@@ -45,7 +45,7 @@ const AddContact = () => {
 
         <NavBar />
 
-        <h1 className='mt-12'>Add Contact</h1>
+        <h1 className='mt-12 text-lg'>Add New Contact</h1>
 
         <form onSubmit={handleSubmit}>
         <div>
@@ -80,8 +80,8 @@ const AddContact = () => {
             required
           />
         </div>
-    
-        <button className="btn btn-wide btn-primary mt-6" type="submit">Submit</button>
+  
+        <button className="btn mt-6 btn-wide btn-primary" type="submit">Submit</button>
       </form>
       <div className="alert m-12">
         <span className="text-md">{submitMessage && <p>{submitMessage}</p>}</span>

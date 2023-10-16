@@ -21,11 +21,10 @@ const ShowContacts = () => {
         <div className="camera"></div> 
         <div className="display">
           <div className="artboard artboard-demo phone-1">  
-
-      
+          
           <NavBar/>
 
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto mt-10">
               <table className="table">
                 <thead>
                   <tr>
@@ -39,7 +38,8 @@ const ShowContacts = () => {
                       <td>{contact.name}</td>
                       <td>{contact.number}</td>
                       <td>
-                        <button className="btn btn-primary">
+                        <button className="btn">
+                          <img className="w-6" src="https://i.pinimg.com/originals/9b/67/2a/9b672ab869e07d1ae0c651fc770948be.png"/>
                           <Link to={`/contacts/${contact._id}`}>Edit</Link>
                         </button>
                       </td>
