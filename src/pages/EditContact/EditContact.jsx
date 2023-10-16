@@ -18,7 +18,6 @@ const EditContact = () => {
       fetch(`/api/contacts/${id}`)
         .then((response) => response.json())
         .then((data) => {
-            console.log("FRONT END EDIT", data.contact)
           setContactInfo(data.contact);
         })
     }, [id]);
@@ -51,33 +50,44 @@ const EditContact = () => {
         }
     }
 
-    const handleSaveChanges = async(event) => {
+    const handleSaveChanges = async (event) => {
         event.preventDefault();
         try {
-            const response = await fetch(`/api/contacts/${id}`, 
-            {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(contactInfo)
-            });
-            if (response.ok) {
-                setEditMessage("Contact details updated successfully")
+            if (contactInfo.name.length < 2 || contactInfo.name.length > 15) {
+                setEditMessage("Name must be between 2 and 15 characters.");
+            } else if (!/^\d+$/.test(contactInfo.number)) {
+                setEditMessage("Phone number must contain only numerical digits.");
+            } else if (contactInfo.number.length !== 8) {
+                setEditMessage("Phone number must be exactly 8 digits.");
+            } else if (contactInfo.number < 0) {
+                setEditMessage("Number must be a non-negative integer.");
             } else {
-                setEditMessage("Failed to update contact details")
+                const response = await fetch(`/api/contacts/${id}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(contactInfo),
+                });
+    
+                if (response.ok) {
+                    setEditMessage("Contact details updated successfully");
+                } else {
+                    setEditMessage("Failed to update contact details");
+                }
             }
         } catch (error) {
             console.error(error);
             setEditMessage("An unexpected error occurred. Please try again later.");
         }
-    }
+    };
+    
 
     return (
         <div className="mockup-phone border-primary">
         <div className="camera"></div> 
         <div className="display">
-          <div className="artboard artboard-demo phone-1">  
+          <div className="artboard artboard-demo phone-1 bg-base-100">  
   
           <NavBar />
   
@@ -86,7 +96,7 @@ const EditContact = () => {
                     <h1 className="text-lg mt-6 flex-grow">Edit Contact</h1>
 
                     <div className="tooltip" data-tip="Delete Contact">
-                        <button className="btn" onClick={handleDelete}>
+                        <button className="btn mt-5" onClick={handleDelete}>
                             <img className="w-5 h-5" src="https://cdn-icons-png.flaticon.com/512/70/70757.png" alt="Delete" />
                         </button>
                     </div>
@@ -102,8 +112,8 @@ const EditContact = () => {
                             name="name"
                             value={contactInfo.name}
                             onChange={handleEditChange}
-                            minLength="1"
-                            maxLength="30"
+                            minLength="2"
+                            maxLength="15"
                             required
                         />    
                     <label className="label">
@@ -116,8 +126,9 @@ const EditContact = () => {
                             name="number"
                             value={contactInfo.number}
                             onChange={handleEditChange}
-                            min="8"
-                            max="8"
+                            minLength="8"
+                            maxLength="8"
+                            pattern="[0-9]{8}" 
                             required
                         />
                     <div className="flex justify-between mt-6">
@@ -129,8 +140,8 @@ const EditContact = () => {
                     </button>
                     </div>
                 </form>
-                <div className="alert m-12">
-                    <span className="text-md">{editMessage && <p>{editMessage}</p>}</span>
+                <div className="alert m-6 bg-base-100">
+                    <span className="text-md ">{editMessage && <p>{editMessage}</p>}</span>
                 </div> 
             </div>
             </div>

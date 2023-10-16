@@ -20,11 +20,12 @@ const ShowContacts = () => {
         <div className="mockup-phone border-primary">
         <div className="camera"></div> 
         <div className="display">
-          <div className="artboard artboard-demo phone-1">  
+          <div className="artboard artboard-demo phone-1 bg-base-100">  
           
-          <NavBar/>
+          <NavBar />
 
-          <div className="overflow-x-auto mt-10">
+          <div className="overflow-x-auto mt-24 mb-8">
+          
               <table className="table">
                 <thead>
                   <tr>
@@ -38,10 +39,13 @@ const ShowContacts = () => {
                       <td>{contact.name}</td>
                       <td>{contact.number}</td>
                       <td>
-                        <button className="btn">
-                          <img className="w-6" src="https://i.pinimg.com/originals/9b/67/2a/9b672ab869e07d1ae0c651fc770948be.png"/>
-                          <Link to={`/contacts/${contact._id}`}>Edit</Link>
-                        </button>
+                        <div className="tooltip" data-tip="Edit">
+                          <button className="btn">
+                            <Link to={`/contacts/${contact._id}`}>
+                              <img className="w-5" src="https://w7.pngwing.com/pngs/124/142/png-transparent-pencil-edit-office-create-compose-edit-file-writing-creative-office-icon.png"/>
+                            </Link>
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
