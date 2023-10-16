@@ -96,7 +96,7 @@ const EditContact = () => {
                     <h1 className="text-lg mt-6 flex-grow">Edit Contact</h1>
 
                     <div className="tooltip" data-tip="Delete Contact">
-                        <button className="btn mt-5" onClick={handleDelete}>
+                        <button className="btn mt-3" onClick={handleDelete}>
                             <img className="w-5 h-5" src="https://cdn-icons-png.flaticon.com/512/70/70757.png" alt="Delete" />
                         </button>
                     </div>
