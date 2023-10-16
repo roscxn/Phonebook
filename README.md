@@ -5,7 +5,8 @@ Welcome to the phone book web app, a powerful tool that streamlines your contact
 ## Users' Stories
 
 ### View All Contacts
-<img src="https://github.com/roscxn/Phonebook/assets/114375385/49ba4687-bb90-414d-be9a-d0b4bd0fce52" width="350px">
+<img src="![image](https://github.com/roscxn/Phonebook/assets/114375385/cb42997a-0b48-4829-8c55-55c69cd8fdd1)
+" width="350px">
 
 ### Edit and Delete Contact Details
 <img src="https://github.com/roscxn/Phonebook/assets/114375385/c1e1fd37-7670-4568-8e4f-5848d3d418f6" width="350px">
