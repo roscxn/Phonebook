@@ -3,11 +3,12 @@ import NavBar from "../../components/NavBar/NavBar";
 
 const AddContact = () => {
 
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     name: "",
     number:"",
-  });
+  };
 
+  const [formData, setFormData] = useState(initialFormData)
   const [submitMessage, setSubmitMessage] = useState("");
 
   const handleChange = (e) => {
@@ -17,7 +18,6 @@ const AddContact = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     try {
       const response = await fetch('/api/contacts/add', {
         method: 'POST',
@@ -30,12 +30,10 @@ const AddContact = () => {
         setFormData(initialFormData); 
         setSubmitMessage("Contact added successfully");
       } else {
-        const errorResponse = await response.json();
-        setSubmitMessage(errorResponse.error || 'Failed to add a new contact. Please try again.');
+        setSubmitMessage('Failed to add a new contact. Please try again.');
       }
     } catch (error) {
       setSubmitMessage("An unexpected error occurred. Please try again later.");
-
     }
   }
 
@@ -45,7 +43,6 @@ const AddContact = () => {
       <div className="display">
         <div className="artboard artboard-demo phone-1">  
 
-    
         <NavBar />
 
         <h1 className='mt-12'>Add Contact</h1>
@@ -83,18 +80,15 @@ const AddContact = () => {
             required
           />
         </div>
-        
     
         <button className="btn btn-wide btn-primary mt-6" type="submit">Submit</button>
       </form>
       <div className="alert m-12">
-        <span className="text-xl">{submitMessage && <p>{submitMessage}</p>}</span>
+        <span className="text-md">{submitMessage && <p>{submitMessage}</p>}</span>
       </div> 
       
     </div>
     </div>
-
-
         </div>
 
     )

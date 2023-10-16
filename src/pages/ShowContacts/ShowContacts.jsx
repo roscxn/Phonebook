@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import NavBar from "../../components/NavBar/NavBar";
+import { Link } from 'react-router-dom';
+
 
 const ShowContacts = () => {
-
+  
   const [showContacts, setShowContacts] = useState([]);
 
   useEffect(() => {
     fetch("/api/contacts/show")
       .then((response) => response.json())
       .then((data) => {
-        console.log("show contacts", data);
-        setShowContacts(data);
+        setShowContacts(data.contacts);
       })
   }, []);
 
@@ -22,7 +23,7 @@ const ShowContacts = () => {
           <div className="artboard artboard-demo phone-1">  
 
       
-          <NavBar />
+          <NavBar/>
 
           <div className="overflow-x-auto">
               <table className="table">
@@ -33,15 +34,17 @@ const ShowContacts = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    {showContacts.map((contact) => (
-                      <li key={contact._id}>
-                        <td>{contact.name}</td>
-                        <td>{contact.number}</td>
-                        <td><button className="btn btn-primary">Del</button></td>
-                      </li>
-                    ))}
-                  </tr>
+                  {showContacts.map((contact) => (
+                    <tr key={contact._id}>
+                      <td>{contact.name}</td>
+                      <td>{contact.number}</td>
+                      <td>
+                        <button className="btn btn-primary">
+                          <Link to={`/contacts/${contact._id}`}>Edit</Link>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div> 
