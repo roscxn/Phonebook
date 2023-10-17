@@ -1,4 +1,4 @@
-# Phone Book - Mobile Responsive
+# Phone Book
 
 Welcome to the phone book web app, a powerful tool that streamlines your contact management. With a RESTful API, the application offers essential features for managing contacts, including the ability to view, edit, and delete entries. The app is built on a robust tech stack, utilizing React JavaScript for the front end, a Python backend with Flask, and MongoDB for efficient data storage. Experience seamless contact management like never before with this intuitive and user-friendly solution.
 
